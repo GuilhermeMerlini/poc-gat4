@@ -2,7 +2,7 @@
 
 Este projeto é uma aplicação web (Django) desenvolvida para o acompanhamento e mapeamento de pacientes. Ele possui integração com a API do Google Sheets para obtenção e sincronização dos dados e utiliza mapas interativos.
 
-## 🚀 Como rodar o projeto localmente
+## Como rodar o projeto localmente
 
 Siga o passo a passo abaixo para configurar e executar a aplicação na sua máquina.
 
@@ -10,20 +10,13 @@ Siga o passo a passo abaixo para configurar e executar a aplicação na sua máq
 - [Python 3.x](https://www.python.org/) instalado.
 - Arquivo `credentials.json` (Service Account do Google Cloud) com acesso à planilha do projeto.
 
-### 1. Clonar o repositório
-Primeiro, faça o clone do projeto para a sua máquina local:
-```bash
-git clone <url-do-repositorio>
-cd POC2
-```
-
-### 2. Configurar as credenciais do Google
+### 1. Configurar as credenciais do Google
 Para que a integração com o Google Sheets funcione:
 1. Crie uma pasta chamada `data` na raiz do projeto (se ela ainda não existir).
 2. Coloque o arquivo `credentials.json` dentro da pasta `data/`.
 *(Nota: este arquivo é ignorado pelo Git por segurança, você deve obtê-lo com os administradores do projeto).*
 
-### 3. Criar e ativar o ambiente virtual
+### 2. Criar e ativar o ambiente virtual
 Recomenda-se o uso de um ambiente virtual para não causar conflitos com outras bibliotecas da sua máquina.
 
 **No Linux/Mac:**
@@ -38,19 +31,19 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
-### 4. Instalar as dependências
+### 3. Instalar as dependências
 Com o ambiente virtual ativado, instale as bibliotecas necessárias listadas no `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Configurar o Banco de Dados
+### 4. Configurar o Banco de Dados
 A aplicação utiliza o SQLite por padrão. Para criar as tabelas necessárias no banco de dados, execute:
 ```bash
 python manage.py migrate
 ```
 
-### 6. Iniciar o Servidor
+### 5. Iniciar o Servidor
 Por fim, rode o servidor de desenvolvimento do Django:
 ```bash
 python manage.py runserver
