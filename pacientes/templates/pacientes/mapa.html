@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Pacientes - PET Saúde</title>
+    
+    <link rel="stylesheet" href="{% static 'pacientes/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'pacientes/css/mapa.css' %}">
+    <link rel="stylesheet" href="{% static 'pacientes/css/painel.css' %}">
+
+    <link rel="icon" href="{% static 'pacientes/images/favicon.png' %}" type="image/png">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body>
+    <div id="appContainer">
+        <div id="generalInfo">
+            <button id="btn-toggle-panel">❮</button>
+
+            <div class="panel-content">
+                <h2>Painel de Controle</h2>
+                
+                <div class="section-panel">
+                    <div class="accordion-header" onclick="toggleAccordion('filtros-content', this)">
+                        <h3>Filtros</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    
+                    <div id="filtros-content" class="accordion-content">
+
+                        <label><input type="checkbox" id="filter-foot"> Apenas com exame de pé Avaliado</label>
+                        <br><br>
+                        
+                        <label>HbA1c maior que: <input type="number" id="filter-hba1c" class="filter-dropdown" step="0.1" min="0"></label>
+                        
+                        <label class="filter-dropdown-label">
+                            <span>Faixa Etária:</span>
+                            <select id="filter-age" class="filter-dropdown">
+                                <option value="all">Todas as idades</option>
+                                <option value="under40">Até 39 anos</option>
+                                <option value="40to59">40 a 59 anos</option>
+                                <option value="60plus">60 anos ou mais</option>
+                            </select>
+                        </label>
+
+                        <h4 class="filter-subtitle" style="margin-top: 15px;">Status da Consulta</h4>
+                        <label><input type="checkbox" id="filter-on-time"> Em dia</label><br>
+                        <label><input type="checkbox" id="filter-attention"> Atraso de até 15 dias</label><br>
+                        <label><input type="checkbox" id="filter-delayed"> Atraso > 15 dias ou Sem agenda</label>
+
+                        <h4 class="filter-subtitle" style="margin-top: 15px;">Risco Global do Paciente</h4>
+                        <label><input type="checkbox" id="filter-risk-low"> 🟢 Risco Baixo</label><br>
+                        <label><input type="checkbox" id="filter-risk-medium"> 🟡 Risco Médio</label><br>
+                        <label><input type="checkbox" id="filter-risk-high"> 🟠 Risco Alto</label><br>
+                        <label><input type="checkbox" id="filter-risk-critical"> 🔴 Risco Crítico</label>
+
+                        <button class="btn-clear" onclick="clearFilters()">Limpar Filtros</button>
+                    </div>
+                </div>
+                
+                <div class="section-panel" id="metrics-census">
+                    <div class="accordion-header" onclick="toggleAccordion('metricas-content', this)">
+                        <h3>Métricas Gerais</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+
+                    <div id="metricas-content" class="accordion-content">
+                        <p>Total no mapa: <span id="total-patients" class="metric-bold">0</span></p>
+                        <p>🟢Risco baixo: <span id="metric-green" class="metric-green">0</span></p>
+                        <p>🟡Risco médio: <span id="metric-yellow" class="metric-yellow">0</span></p>
+                        <p>🟠Risco alto: <span id="metric-orange" class="metric-orange">0</span></p>
+                        <p>🔴Risco crítico: <span id="metric-red" class="metric-red">0</span></p>
+                        <hr class="separator-line">
+                        <p>Pé Avaliado: <span id="metric-foot" class="metric-foot">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="patientInfo">
+            <h1>Informações do Paciente</h1>
+        </div>
+    </div>
+    
+    <script src="{% static 'pacientes/js/regras_clinicas.js' %}"></script>
+    <script src="{% static 'pacientes/js/api.js' %}"></script>
+    <script src="{% static 'pacientes/js/ui.js' %}"></script>
+    <script src="{% static 'pacientes/js/mapa.js' %}"></script>
+    <script src="{% static 'pacientes/js/app.js' %}"></script>
+</body>
+</html>

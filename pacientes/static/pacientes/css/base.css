@@ -1,0 +1,25 @@
+:root {
+    --map-bg-color: #e9ebee;
+    --panel-bg: #ffffff;
+    --panel-inner-bg: #fafafa; 
+    --text-main: #2b2d42;
+    --text-muted: #4b5563;
+    --primary-color: #4f46e5;
+    --hover-color: #4338ca;
+    --border-color: #c7d2fe;
+}
+
+body, html { 
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+}
+
+#appContainer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
