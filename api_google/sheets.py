@@ -132,7 +132,6 @@ def atualizar_multiplos_campos_por_cns(cns, dicionario_campos):
     valores_dm = aba_dm.get_all_values()
     cabecalhos_dm = extrair_cabecalhos_dm(valores_dm)
     
-    # 1. Acha a linha do paciente pelo CNS uma única vez
     idx_coluna_cns = cabecalhos_dm.index("CNS")
     linha_idx = None
     for i, linha in enumerate(valores_dm):
@@ -143,19 +142,9 @@ def atualizar_multiplos_campos_por_cns(cns, dicionario_campos):
     if not linha_idx:
         return False, "Paciente não encontrado."
         
-    # 2. Prepara a lista de atualizações
-    # Para ser ultra performático e não estourar a cota, o gspread tem o update_cells
-    # Mas para simplificar a lógica na POC sem dar loop de requisição web, 
-    # tu pode usar o método batch_update da própria planilha se os campos variarem muito,
-    # ou se forem poucos campos por vez, um loop controlado.
-    
-    # Vamos fazer uma lógica onde tu descobre a coluna de cada campo do dicionário
-    # e atualiza usando a mesma linha_idx que tu já descobriu.
     for nome_campo, novo_valor in dicionario_campos.items():
         if nome_campo in cabecalhos_dm:
             col_idx = cabecalhos_dm.index(nome_campo) + 1
-            # Como estamos na POC, se forem alterações de uma linha só por vez, 
-            # o gspread aguenta os updates sequenciais se forem disparados juntos em um único POST do usuário
             aba_dm.update_cell(linha_idx, col_idx, novo_valor)
             
     return True, "Todos os campos atualizados."
